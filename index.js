@@ -8,14 +8,44 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-const studentSchema = new mongoose.Schema({
-    roll_no: Number,
-    name: String,
-    year: Number,
-    subjects: {type: Array}
+const carSchema = new mongoose.Schema({
+    modelAndMark: {type: String, required: true},
+    type: {type: String, required: true},
+    price: {type: Number, required: true},
+    images: {type: Array, required: true},
+    isBusy: {type: Boolean, required: true},
+    isRent: {type: Boolean, required: true},
+    baggage: {type: Boolean, required: true},
+    description: {
+        engine: {type: String, required: true},
+        year: {type: String, required: true},
+        seats: {type: Number, required: true},
+        expenses: {type: String, required: true},
+        carNumber: {type: String, required: true}
+    },
+    aboutCar: {type: String, required: true},
 });
 
-const Car = mongoose.model('Car', studentSchema);
+
+const car = {
+    "modelAndMark": "",
+    "type": "hatchback",
+    "price": 22,
+    "images": [],
+    "isBusy": false,
+    "isRent": true,
+    "baggage": true,
+    "description": {
+        "engine": "",
+        "year": "1999",
+        "seats": 6,
+        "expenses": "",
+        "carNumber": "30u199xa"
+    },
+    "aboutCar": "lorem ipsum dolor",
+}
+
+const Car = mongoose.model('Car', carSchema);
 
 mongoose.connect(
     'mongodb://127.0.0.1:27017',
@@ -33,12 +63,8 @@ app.get('/', async (req, res) => {
 
 app.post('/', (req, res) => {
     let data = req.body;
-    if (Array.isArray(data.subjects)) {
-        new Car(data).save()
-        res.send('Data saved successfully');
-    } else {
-        throw 'Something went wrong'
-    }
+    new Car(data).save()
+    res.send('Data saved successfully');
 })
 
 app.get('/:_id', async (req, res) => {
