@@ -26,25 +26,6 @@ const carSchema = new mongoose.Schema({
     aboutCar: {type: String, required: true},
 });
 
-
-const car = {
-    "modelAndMark": "",
-    "type": "hatchback",
-    "price": 22,
-    "images": [],
-    "isBusy": false,
-    "isRent": true,
-    "baggage": true,
-    "description": {
-        "engine": "",
-        "year": "1999",
-        "seats": 6,
-        "expenses": "",
-        "carNumber": "30u199xa"
-    },
-    "aboutCar": "lorem ipsum dolor",
-}
-
 const Car = mongoose.model('Car', carSchema);
 
 mongoose.connect(
